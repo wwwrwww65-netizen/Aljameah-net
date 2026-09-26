@@ -1562,6 +1562,21 @@ input[name="username"] {
   touch-action: pan-y !important;
 }
 
+.app:not(#status):not(.active) {
+  display: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.app.active:not(#status) {
+  display: flex !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 350 !important;
+}
+
 .modal-sheet-card {
   background:    var(--color-bg-card) !important;
   border:        1px solid rgba(223, 171, 82, 0.32) !important;
@@ -2365,22 +2380,25 @@ tbody td:first-child {
    مرتبة جنباً إلى جنب مع التمدد التلقائي الديناميكي عند إخفاء أحدهما
    ══════════════════════════════════════════════════════════════════ */
 .entertainment-links {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  margin: 14px 0 !important;
-  box-sizing: border-box !important;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin: 14px 0;
+  box-sizing: border-box;
 }
 
 .entertainment-links[style*="display: none"],
 .entertainment-links.hidden,
+.entertainment-links:empty,
 .stream-card-link[style*="display: none"],
 .stream-card-link.hidden,
 .stream-card-link[hidden] {
   display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .stream-card-link {
@@ -2688,11 +2706,23 @@ tbody td:first-child {
 }
 
 /* شبكة حركة البيانات: التنزيل والرفع جنباً إلى جنب (HUD Telemetry Flow Pods) */
-.traffic-flow-grid {
+.traffic-metrics-quad-grid {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 5px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.traffic-flow-grid {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.traffic-flow-grid.time-flow-grid {
+  margin-top: 0 !important;
 }
 
 .traffic-pod {
@@ -2700,15 +2730,15 @@ tbody td:first-child {
   min-width: 0;
   background: linear-gradient(165deg, #142038 0%, #0F182B 100%);
   border: 1.5px solid rgba(255, 140, 0, 0.28);
-  border-radius: 16px;
-  padding: 14px 12px;
+  border-radius: 14px;
+  padding: 10px 10px 9px 10px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .traffic-pod.download-pod {
@@ -2776,6 +2806,54 @@ tbody td:first-child {
   filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.6));
 }
 
+.traffic-icon-bubble.amber {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(180, 83, 9, 0.25) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #FBBF24;
+}
+
+.traffic-icon-bubble.amber svg {
+  width: 18px;
+  height: 18px;
+  fill: #FBBF24;
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.6));
+}
+
+.traffic-icon-bubble.sky {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(3, 105, 161, 0.25) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: #38BDF8;
+}
+
+.traffic-icon-bubble.sky svg {
+  width: 18px;
+  height: 18px;
+  fill: #38BDF8;
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.6));
+}
+
+.traffic-pod.time-elapsed-pod {
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.traffic-pod.time-elapsed-pod:hover {
+  background: linear-gradient(165deg, #16243F 0%, #111B30 100%);
+  border-color: rgba(245, 158, 11, 0.65);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6), 0 0 16px rgba(245, 158, 11, 0.28);
+}
+
+.traffic-pod.time-remain-pod {
+  border-color: rgba(56, 189, 248, 0.32);
+}
+
+.traffic-pod.time-remain-pod:hover {
+  background: linear-gradient(165deg, #16243F 0%, #111B30 100%);
+  border-color: rgba(56, 189, 248, 0.65);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6), 0 0 16px rgba(56, 189, 248, 0.28);
+}
+
 .traffic-label-group {
   display: flex;
   flex-direction: column;
@@ -2812,21 +2890,31 @@ tbody td:first-child {
 }
 
 .traffic-metric-val.cyan-glow {
-  color: #E0F2FE;
-  text-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+  color: #38BDF8 !important;
+  text-shadow: 0 0 14px rgba(56, 189, 248, 0.65);
 }
 
 .traffic-metric-val.emerald-glow {
-  color: #D1FAE5;
-  text-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+  color: #10B981 !important;
+  text-shadow: 0 0 14px rgba(16, 185, 129, 0.65);
+}
+
+.traffic-metric-val.amber-glow {
+  color: #F59E0B !important;
+  text-shadow: 0 0 14px rgba(245, 158, 11, 0.65);
+}
+
+.traffic-metric-val.sky-glow {
+  color: #38BDF8 !important;
+  text-shadow: 0 0 14px rgba(56, 189, 248, 0.65);
 }
 
 /* شريط التدفق والنشاط الشبكي المصغر بتأثير أمواج مضيئة */
 .traffic-wave-track {
   width: 100%;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  height: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
   overflow: hidden;
   position: relative;
@@ -2840,15 +2928,27 @@ tbody td:first-child {
 }
 
 .traffic-wave-bar.cyan-bar {
-  width: 68%;
+  width: 70%;
   background: linear-gradient(90deg, #0284C7 0%, #38BDF8 70%, #BAE6FD 100%);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.85);
 }
 
 .traffic-wave-bar.emerald-bar {
-  width: 48%;
+  width: 50%;
   background: linear-gradient(90deg, #059669 0%, #10B981 70%, #A7F3D0 100%);
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.85);
+}
+
+.traffic-wave-bar.amber-bar {
+  width: 60%;
+  background: linear-gradient(90deg, #D97706 0%, #F59E0B 70%, #FDE68A 100%);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.85);
+}
+
+.traffic-wave-bar.sky-bar {
+  width: 80%;
+  background: linear-gradient(90deg, #0284C7 0%, #38BDF8 70%, #BAE6FD 100%);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.85);
 }
 
 /* بطاقة مركز الوقت والجلسة (Session Timeline Hub — Dual Pods) */

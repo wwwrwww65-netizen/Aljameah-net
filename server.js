@@ -198,7 +198,8 @@ app.all('/login', (req, res) => {
 
   // Any other card succeeds in simulation!
   const defaultDomain = getConfigDefaultSpeed();
-  const domain = (req.query.domain || req.body?.domain || defaultDomain || '').trim();
+  const speedParam = req.query.speed !== undefined ? req.query.speed : (req.query.domain !== undefined ? req.query.domain : (req.body?.speed || req.body?.domain || ''));
+  const domain = (speedParam || defaultDomain || '').trim();
   simulatedSession = {
     logged_in: true,
     username: username,
@@ -234,7 +235,8 @@ app.all('/status', (req, res) => {
   const isAjax = req.headers.accept?.includes('application/json') || req.query.var !== undefined || req.xhr;
   const username = req.query.username || simulatedSession.username || "770807777";
   const defaultDomain = getConfigDefaultSpeed();
-  const currentSpeed = req.query.domain || simulatedSession.domain || defaultDomain || "";
+  const speedQuery = req.query.speed !== undefined ? req.query.speed : (req.query.domain !== undefined ? req.query.domain : null);
+  const currentSpeed = (speedQuery !== null ? speedQuery : (simulatedSession.domain || defaultDomain || "")).trim();
 
   if (isAjax) {
     res.setHeader('Content-Type', 'application/json');
