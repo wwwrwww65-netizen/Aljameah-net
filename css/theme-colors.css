@@ -1569,12 +1569,26 @@ input[name="username"] {
   visibility: hidden !important;
 }
 
+.app:not(#status) {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+}
+
 .app.active:not(#status) {
   display: flex !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
   pointer-events: auto !important;
   opacity: 1 !important;
   visibility: visible !important;
-  z-index: 350 !important;
 }
 
 .modal-sheet-card {

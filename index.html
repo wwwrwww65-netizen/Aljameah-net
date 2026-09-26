@@ -868,7 +868,7 @@
                     <section class="section">
                         <div class="ticker-container">
                             <div class="ticker-content-track">
-                                <p class="marquee" data-news-line>بسم الله الرحمن الرحيم { قل للمؤمنين يغضوا من أبصارهم ويحفظوا فروجهم ذلك أزكى لهم إن الله خبير بما يصنعون } (النور:30)</p>
+                                <p class="marquee" data-news-line>...:::: اهلاً بكم على شبكتنا اللاسلكية تتميز شبكتنا بتقديم مزايا مختلفة لمشتركيها الاعزاء منها السرعة في التصفح ولعب الألعاب ايضاً نقدم خدمة توصيل الانترنت الى المنازل لسنا الوحيدون ولكن نسعى لتقديم خدمة ممتازة على مدار 24 ساعة::::...</p>
                             </div>
                         </div>
                     </section>
@@ -1542,7 +1542,7 @@
                         <section class="section" style="margin-top: 10px; margin-bottom: 10px;">
                             <div class="ticker-container">
                                 <div class="ticker-content-track">
-                                    <p class="marquee" data-news-line>بسم الله الرحمن الرحيم { قل للمؤمنين يغضوا من أبصارهم ويحفظوا فروجهم ذلك أزكى لهم إن الله خبير بما يصنعون } (النور:30)</p>
+                                    <p class="marquee" data-news-line>...:::: اهلاً بكم على شبكتنا اللاسلكية تتميز شبكتنا بتقديم مزايا مختلفة لمشتركيها الاعزاء منها السرعة في التصفح ولعب الألعاب ايضاً نقدم خدمة توصيل الانترنت الى المنازل لسنا الوحيدون ولكن نسعى لتقديم خدمة ممتازة على مدار 24 ساعة::::...</p>
                                 </div>
                             </div>
                         </section>
@@ -2572,13 +2572,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var modal = typeof modalId === 'string' ? document.getElementById(modalId.replace(/^#/, '').trim()) : modalId;
     if (!modal) return;
 
-    // Prevent duplicate rapid calls from multiple event listeners within 250ms
-    var now = Date.now();
-    if (modal._lastTriggerTime && (now - modal._lastTriggerTime < 250)) {
-      return;
-    }
-    modal._lastTriggerTime = now;
-
     // If user is opening status-speed-modal but card has fixed speed, prevent opening
     if (modal.id === 'status-speed-modal') {
       var loggedUser = (document.getElementById('user') ? document.getElementById('user').innerText : '') || localStorage.getItem('last_user_card') || '';
@@ -2593,6 +2586,16 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    // 1. UNCONDITIONAL CLOSE & HIDE FOR ALL OTHER MODALS & OVERLAYS
+    document.querySelectorAll('.app, .nt-modal-overlay, .popup-overlay, .loyalty-modal').forEach(function (m) {
+      if (m !== modal && m.id !== 'status') {
+        m.classList.remove('active', 'modal-closing');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.removeProperty('pointer-events');
+        m.style.removeProperty('z-index');
+      }
+    });
+
     // Close Quran reading mode if active and opening another modal
     if (document.body.classList.contains('quran-reading-mode') && modal.id !== 'quran-modal') {
       document.body.classList.remove('quran-reading-mode');
@@ -2602,16 +2605,6 @@ document.addEventListener('DOMContentLoaded', function () {
         qm.style.setProperty('display', 'none', 'important');
       }
     }
-
-    // 1. IMMEDIATELY CLOSE & HIDE ALL OTHER MODALS
-    document.querySelectorAll('.app:not(#status)').forEach(function (m) {
-      if (m !== modal) {
-        m.classList.remove('active', 'modal-closing');
-        m.style.setProperty('display', 'none', 'important');
-        m.style.removeProperty('pointer-events');
-        m.style.removeProperty('z-index');
-      }
-    });
 
     // History management
     var currentlyOpen = document.querySelector('.app.active:not(#status)');
@@ -2648,10 +2641,15 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
+    // Ensure modal is attached directly to document.body for top z-index rendering
+    if (modal.id !== 'status' && modal.parentNode !== document.body) {
+      document.body.appendChild(modal);
+    }
+
     // 2. ACTIVATE TARGET MODAL CLEANLY & INSTANTLY
     modal.classList.remove('modal-closing');
     modal.style.setProperty('display', 'flex', 'important');
-    modal.style.setProperty('z-index', '350', 'important');
+    modal.style.setProperty('z-index', '99999', 'important');
     modal.style.removeProperty('pointer-events');
     modal.scrollTop = 0;
     void modal.offsetWidth;
@@ -2757,6 +2755,15 @@ document.addEventListener('DOMContentLoaded', function () {
   // Expose globally for legacy/inline scripts
   window.openAppModal = openAppModal;
   window.closeAppModal = closeAppModal;
+
+  // Reparent all popup modals directly to document.body to ensure top z-index rendering
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.app:not(#status)').forEach(function (m) {
+      if (m.parentNode !== document.body) {
+        document.body.appendChild(m);
+      }
+    });
+  });
 
   // Phone Hardware / Gesture Back Button Listener (popstate)
   window.addEventListener('popstate', function (event) {
@@ -3533,11 +3540,18 @@ document.addEventListener('DOMContentLoaded', function () {
       span.innerText = "\u062E\u062F\u0645\u0629 \u0627\u0644\u0639\u0645\u0644\u0627\u0621: ".concat(suppPhone);
     });
 
-    // Sync News / Ticker
-    var newsText = config.textSlider1 || window.hotspotConfig && window.hotspotConfig["news-line"] || 'بسم الله الرحمن الرحيم { قل للمؤمنين يغضوا من أبصارهم ويحفظوا فروجهم ذلك أزكى لهم إن الله خبير بما يصنعون } (النور:30)';
-    document.querySelectorAll('[data-news-line]').forEach(function (p) {
-      p.innerText = newsText;
-    });
+    // Sync News / Ticker from config.js
+    var newsText = (config['news-line'] && String(config['news-line']).trim()) ||
+                   (config.textSlider1 && String(config.textSlider1).trim()) ||
+                   (config['news-line2'] && String(config['news-line2']).trim()) ||
+                   (config.welcomeMessage && String(config.welcomeMessage).trim()) ||
+                   (window.hotspotConfig && window.hotspotConfig["news-line"]) ||
+                   '';
+    if (newsText) {
+      document.querySelectorAll('[data-news-line]').forEach(function (p) {
+        p.innerText = newsText;
+      });
+    }
 
     // 3. Sync WhatsApp links
     var waScheme = "whatsapp://send?phone=".concat(waPhone, "&text=").concat(encodedWaMsg);
