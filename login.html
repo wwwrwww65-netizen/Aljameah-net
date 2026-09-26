@@ -13,6 +13,8 @@ $(if error == "")
 "nas_id": 		    "$(identity)",
 "ip": 		        "$(ip)",
 "mac": 		        "$(mac-esc)",
+"trial": 		    "$(trial)",
+"username": 		"$(username)",
 "action":           "onLoginStart"
 }
 $(else)
@@ -21,6 +23,9 @@ $(else)
 "link_login_only" 	: "$(link-login-only)",
 "error_orig"		: "$(error-orig)",
 "error"				: "$(error)",
+"username"			: "$(username)",
+"mac"				: "$(mac-esc)",
+"trial"				: "$(trial)",
 "action"			: "onLoginError"
 }
 $(endif)

@@ -176,6 +176,26 @@
                     }
                 };
             }
+            window.closeAppModal = window.closeAppModal || function(id) {
+                var el = typeof id === 'string' ? document.getElementById(id.replace(/^#/, '')) : (id && id.nodeType === 1 ? (id.classList.contains('app') ? id : id.closest('.app')) : null);
+                if (el) {
+                    el.classList.remove('active');
+                    el.style.display = 'none';
+                } else {
+                    document.querySelectorAll('.app.active').forEach(function(m) {
+                        if (m.id !== 'status') {
+                            m.classList.remove('active');
+                            m.style.display = 'none';
+                        }
+                    });
+                }
+                var loginEl = document.getElementById('login');
+                var stEl = document.getElementById('status');
+                if (loginEl && (!stEl || !stEl.classList.contains('active'))) {
+                    loginEl.style.display = 'block';
+                    loginEl.style.visibility = 'visible';
+                }
+            };
         })();
     </script>
     <script src="config.js"></script>
@@ -785,10 +805,13 @@
                                 </div>
                             </div>
 
+                            <!-- قائمة الكروت السابقة المحفوظة -->
+                            <div id="savedCardsDropdown" class="saved-cards-dropdown" aria-label="قائمة الكروت السابقة"></div>
+
                             <!-- Hidden Password Field -->
                             <div class="login-field password-field" style="display: none;">
                                 <i class="login-icon fas icon-lock"></i>
-                                <input type="hidden" name="password" class="login-input"
+                                <input type="hidden" name="password" password-field class="login-input"
                                     placeholder="ادخل كلمة السر هنا" improve-input>
                             </div>
                         </div>
@@ -879,12 +902,15 @@
                                 </svg>
                                 <span>تحديد سرعة الإنترنت</span>
                             </span>
-                            <button class="modal-close-btn" type="button">✕ إغلاق</button>
+                            <button class="modal-close-btn" type="button" onclick="closeAppModal('speed-modal')">✕ إغلاق</button>
                         </div>
 
                         <div class="speed-cards-list" id="speedModalList">
                             <!-- يتم بناء بطاقات السرعة ديناميكياً من config.js -->
                         </div>
+                        <button class="button app-submit modal-cancel-btn" type="button" onclick="closeAppModal('speed-modal')" style="margin-top: 12px;">
+                            <span>العودة للرئيسية</span>
+                        </button>
                     </div>
                 </div>
 
@@ -1129,7 +1155,7 @@
                                 </svg>
                                 <span>أسعار الكروت</span>
                             </span>
-                            <button class="modal-close-btn" type="button">✕ إغلاق</button>
+                            <button class="modal-close-btn" type="button" onclick="closeAppModal('price')">✕ إغلاق</button>
                         </div>
                         <div class="price-div">
                             <div class="wrapper">
@@ -1144,7 +1170,7 @@
                                     </thead>
                                      <tbody id="profiles"></tbody>
                                 </table>
-                                <button class="button app-submit modal-cancel-btn" type="button">
+                                <button class="button app-submit modal-cancel-btn" type="button" onclick="closeAppModal('price')">
                                     <svg viewBox="0 0 24 24" class="btn-icon">
                                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                                     </svg>
@@ -1173,14 +1199,14 @@
                                 </svg>
                                 <span>نقاط البيع والتوزيع</span>
                             </span>
-                            <button class="modal-close-btn" type="button">✕ إغلاق</button>
+                            <button class="modal-close-btn" type="button" onclick="closeAppModal('sell-point')">✕ إغلاق</button>
                         </div>
                         <div class="sell-point-div">
                             <div class="wrapper">
                                 <table>
                                     <tbody class="sell-point" id="sell-points"></tbody>
                                 </table>
-                                <button class="button app-submit modal-cancel-btn" type="button">
+                                <button class="button app-submit modal-cancel-btn" type="button" onclick="closeAppModal('sell-point')">
                                     <svg viewBox="0 0 24 24" class="btn-icon">
                                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                                     </svg>
@@ -1209,7 +1235,7 @@
                                 </svg>
                                 <span>جديدنا والعروض</span>
                             </span>
-                            <button class="modal-close-btn" type="button">✕ إغلاق</button>
+                            <button class="modal-close-btn" type="button" onclick="closeAppModal('loan')">✕ إغلاق</button>
                         </div>
                         <div class="price-div">
                             <div class="wrapper">
@@ -1237,7 +1263,7 @@
                                 </div>
                                 <!-- ========================================================================= -->
 
-                                <button class="button app-submit modal-cancel-btn" type="button">
+                                <button class="button app-submit modal-cancel-btn" type="button" onclick="closeAppModal('loan')">
                                     <svg viewBox="0 0 24 24" class="btn-icon">
                                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                                     </svg>
@@ -1265,13 +1291,13 @@
                                 </svg>
                                 <span>تغيير سرعة الإنترنت للكرت</span>
                             </span>
-                            <button class="modal-close-btn" type="button">✕ إغلاق</button>
+                            <button class="modal-close-btn" type="button" onclick="closeAppModal('status-speed-modal')">✕ إغلاق</button>
                         </div>
 
                         <div class="speed-cards-list" id="statusSpeedModalList">
                             <!-- يتم بناء بطاقات السرعات ديناميكياً من config.js -->
                         </div>
-                        <button class="button app-submit modal-cancel-btn back" type="button" style="margin-top: 14px;">
+                        <button class="button app-submit modal-cancel-btn back" type="button" onclick="closeAppModal('status-speed-modal')" style="margin-top: 14px;">
                             <svg viewBox="0 0 24 24" class="btn-icon">
                                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                             </svg>
@@ -1732,12 +1758,12 @@
                                 </svg>
                                 <span>متجر البرامج</span>
                             </span>
-                            <button class="app-logout modal-close-btn" type="button">✕ إغلاق</button>
+                            <button class="app-logout modal-close-btn" type="button" onclick="closeAppModal('app-store')">✕ إغلاق</button>
                         </div>
                         <div class="sell-point-div">
                             <div class="wrapper" id="grid"></div>
                         </div>
-                        <button class="app-logout button app-submit back">الصفحة السابقة</button>
+                        <button class="app-logout button app-submit back" type="button" onclick="closeAppModal('app-store')">الصفحة السابقة</button>
                         <a href="tel:770807056" class="fab-support">
                             <svg viewBox="0 0 24 24">
                                 <path
@@ -2432,32 +2458,61 @@ document.addEventListener('DOMContentLoaded', function () {
     window.animating = false;
     var targets = [];
     if (typeof modalOrId === 'string') {
-      var el = document.getElementById(modalOrId);
-      if (el) targets.push(el);
-    } else if (modalOrId instanceof HTMLElement) {
-      targets.push(modalOrId);
+      var cleanId = modalOrId.replace(/^#/, '').trim();
+      if (cleanId === 'quran-modal') {
+        if (typeof window.closeQuranModal === 'function') {
+          window.closeQuranModal(fromPopState);
+        }
+        var qEl = document.getElementById('quran-modal');
+        if (qEl) targets.push(qEl);
+      } else {
+        var el = document.getElementById(cleanId);
+        if (el) targets.push(el);
+      }
+    } else if (modalOrId && typeof modalOrId === 'object') {
+      if (modalOrId.nodeType === 1) {
+        var appEl = modalOrId.classList.contains('app') ? modalOrId : modalOrId.closest('.app');
+        if (appEl) targets.push(appEl);
+        else targets.push(modalOrId);
+      } else if (modalOrId.target && modalOrId.target.nodeType === 1) {
+        var appFromEvent = modalOrId.target.classList.contains('app') ? modalOrId.target : modalOrId.target.closest('.app');
+        if (appFromEvent) targets.push(appFromEvent);
+      }
     } else {
       document.querySelectorAll('.app.active').forEach(function (m) {
         if (m.id !== 'status') targets.push(m);
       });
+      var qModal = document.getElementById('quran-modal');
+      if (qModal && qModal.classList.contains('active')) {
+        if (typeof window.closeQuranModal === 'function') window.closeQuranModal(fromPopState);
+        targets.push(qModal);
+      }
     }
-    if (targets.length === 0) return;
 
-    // Pop history if closed from user interaction (button click/backdrop) rather than phone back button
+    if (targets.length === 0) {
+      if (window.ModalScrollLock) window.ModalScrollLock.unlock(true);
+      return;
+    }
+
+    // Pop history if closed from user interaction rather than phone back button
     if (!fromPopState) {
       popModalHistory();
     }
+
     targets.forEach(function (target) {
       if (target.id === 'status') return;
       target.classList.remove('active');
       target.classList.add('modal-closing');
+      target.style.pointerEvents = 'none';
+
       setTimeout(function () {
-        if (target.classList.contains('modal-closing') && !target.classList.contains('active')) {
-          target.classList.remove('modal-closing');
-          target.style.display = 'none';
-        }
-      }, 240);
+        target.classList.remove('modal-closing');
+        target.style.display = 'none';
+        target.style.removeProperty('display');
+        target.style.removeProperty('pointer-events');
+      }, 180);
     });
+
     var statusModalEl2 = document.getElementById('status');
     var isStatusActive = Boolean(statusModalEl2 && statusModalEl2.classList.contains('active'));
     var loginEl = document.getElementById('login');
@@ -2465,6 +2520,7 @@ document.addEventListener('DOMContentLoaded', function () {
       loginEl.style.display = 'block';
       loginEl.style.visibility = 'visible';
       loginEl.classList.remove('inactive');
+      loginEl.classList.remove('hidden-by-status');
     }
 
     // Reset bottom nav active state to Home if no modals are open
@@ -2477,16 +2533,16 @@ document.addEventListener('DOMContentLoaded', function () {
         var _navHome = document.getElementById('navHome');
         if (_navHome) _navHome.classList.add('active');
       }
-    }, 50);
+    }, 40);
 
-    // Unlock background scroll smoothly after animation
+    // Unlock background scroll smoothly
     setTimeout(function () {
       if (window.ModalScrollLock) {
         window.ModalScrollLock.unlock();
       } else {
         document.body.style.overflow = '';
       }
-    }, 240);
+    }, 180);
   }
 
   // Expose globally for legacy/inline scripts
@@ -2555,9 +2611,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Universal Click Handler for All Modal Close & Cancel Buttons
-  document.addEventListener('click', function (e) {
-    var closeTrigger = e.target.closest('.modal-close-btn, .modal-cancel-btn, .back, button[data-modal-close]');
+  // Universal Click & Touch Handlers for All Modal Close & Cancel Buttons and Backdrops
+  function handleUniversalModalClose(e) {
+    var closeTrigger = e.target.closest('.modal-close-btn, .modal-cancel-btn, .back, button[data-modal-close], [data-close-modal]');
     if (closeTrigger) {
       var parentApp = closeTrigger.closest('.app');
       if (parentApp && parentApp.id !== 'status') {
@@ -2573,7 +2629,15 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       closeAppModal(e.target);
     }
-  }, true);
+  }
+
+  document.addEventListener('click', handleUniversalModalClose, true);
+  document.addEventListener('touchend', function (e) {
+    if (e.target.classList && e.target.classList.contains('app') && e.target.classList.contains('active') && e.target.id !== 'status') {
+      e.preventDefault();
+      closeAppModal(e.target);
+    }
+  }, { passive: false });
 
   // Modal Trigger Buttons (parent-id and dedicated IDs)
   document.querySelectorAll('button[parent-id], [data-open-modal]').forEach(function (btn) {
@@ -3510,76 +3574,123 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 4. DIRECT FILL PREVIOUS CARD BUTTON (دخول بكرت سابق)
+  // 4. DIRECT FILL & DROPDOWN LIST FOR PREVIOUS CARDS (دخول بكرت سابق)
   var prevCardBtn = document.getElementById('quickPreviousCardBtn');
+  var savedCardsDropdown = document.getElementById('savedCardsDropdown');
   var prevCardCycleIndex = 0;
+
+  function getAllSavedCardsList() {
+    var cardsList = [];
+    var addCard = function (c) {
+      if (!c) return;
+      var clean = c.toString().split(',')[0].trim();
+      if (clean && !cardsList.includes(clean)) {
+        cardsList.push(clean);
+      }
+    };
+
+    if (typeof getStoredValuesFromCookie === 'function') {
+      try {
+        var rawStored = getStoredValuesFromCookie();
+        if (Array.isArray(rawStored)) {
+          rawStored.slice().reverse().forEach(addCard);
+        }
+      } catch (e) {}
+    }
+
+    try {
+      var rawLocal = localStorage.getItem('storedValues') || localStorage.getItem('stored_cards_history');
+      if (rawLocal) {
+        var parsed = JSON.parse(rawLocal);
+        if (Array.isArray(parsed)) {
+          parsed.slice().reverse().forEach(addCard);
+        }
+      }
+    } catch (e) {}
+
+    if (typeof getLoginCardCookie === 'function') {
+      try {
+        var loginCookie = getLoginCardCookie();
+        if (loginCookie && loginCookie.username) {
+          addCard(loginCookie.username);
+        }
+      } catch (e) {}
+    }
+
+    try {
+      var singleLocal = localStorage.getItem('last_user_card') || localStorage.getItem('hotspot_username') || localStorage.getItem('username');
+      if (singleLocal) addCard(singleLocal);
+    } catch (e) {}
+
+    return cardsList;
+  }
+
+  function selectSavedCard(cardValue) {
+    var usernameInput = document.querySelector('input[name="username"]') || document.querySelector('input[username-field]');
+    if (usernameInput && cardValue) {
+      window._fillingFromPrevBtn = true;
+      usernameInput.value = cardValue;
+      usernameInput.dispatchEvent(new Event('input', { bubbles: true }));
+      usernameInput.dispatchEvent(new Event('change', { bubbles: true }));
+      window._fillingFromPrevBtn = false;
+      var prevActions = document.querySelector('.input-inner-actions');
+      if (prevActions) prevActions.classList.remove('is-hidden');
+    }
+  }
+
+  window.renderSavedCardsMenu = function () {
+    if (!savedCardsDropdown) return;
+    var cardsList = getAllSavedCardsList();
+    if (cardsList.length === 0) {
+      savedCardsDropdown.classList.remove('open');
+      savedCardsDropdown.innerHTML = '';
+      return;
+    }
+
+    var html = '<div class="saved-cards-header">' +
+      '<span>الكروت السابقة المحفوظة (' + cardsList.length + ')</span>' +
+      '<span style="font-weight:600; color:#64748b;">اختر كرتاً للدخول</span>' +
+      '</div><div class="saved-cards-list">';
+
+    cardsList.forEach(function (card, idx) {
+      var badgeText = idx === 0 ? 'آخر كرت' : ('كرت سابق ' + (idx + 1));
+      var latestClass = idx === 0 ? ' is-latest' : '';
+      html += '<button type="button" class="saved-card-item' + latestClass + '" data-card-val="' + card.replace(/"/g, '&quot;') + '">' +
+        '<span class="saved-card-number">' + card + '</span>' +
+        '<span class="saved-card-badge">' + badgeText + '</span>' +
+        '</button>';
+    });
+    html += '</div>';
+    savedCardsDropdown.innerHTML = html;
+
+    savedCardsDropdown.querySelectorAll('.saved-card-item').forEach(function (btn) {
+      btn.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        var chosen = this.getAttribute('data-card-val');
+        if (chosen) {
+          selectSavedCard(chosen);
+          savedCardsDropdown.classList.remove('open');
+        }
+      });
+    });
+  };
+
   if (prevCardBtn) {
     prevCardBtn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
 
-      // Collect all previous cards stored in cookies, localStorage, or memory
-      var cardsList = [];
-
-      // From hotCookie stored values
-      if (typeof getStoredValuesFromCookie === 'function') {
-        var rawStored = getStoredValuesFromCookie();
-        if (Array.isArray(rawStored)) {
-          // Reverse to get most recent first
-          rawStored.slice().reverse().forEach(function (item) {
-            if (item) {
-              var parts = item.toString().split(',');
-              var cardNum = parts[0] ? parts[0].trim() : '';
-              if (cardNum && !cardsList.includes(cardNum)) {
-                cardsList.push(cardNum);
-              }
-            }
-          });
-        }
-      }
-
-      // From single cookie username
-      if (typeof getLoginCardCookie === 'function') {
-        var loginCookie = getLoginCardCookie();
-        if (loginCookie && loginCookie.username) {
-          var u = loginCookie.username.trim();
-          if (u && !cardsList.includes(u)) {
-            cardsList.push(u);
-          }
-        }
-      }
-
-      // From localStorage backups
-      try {
-        var rawLocal = localStorage.getItem('storedValues');
-        if (rawLocal) {
-          var parsed = JSON.parse(rawLocal);
-          if (Array.isArray(parsed)) {
-            parsed.slice().reverse().forEach(function (item) {
-              var card = item.toString().split(',')[0].trim();
-              if (card && !cardsList.includes(card)) {
-                cardsList.push(card);
-              }
-            });
-          }
-        }
-        var singleLocal = localStorage.getItem('last_user_card') || localStorage.getItem('username');
-        if (singleLocal && !cardsList.includes(singleLocal.trim())) {
-          cardsList.push(singleLocal.trim());
-        }
-      } catch (err) {}
-      var usernameInput = document.querySelector('input[name="username"]') || document.querySelector('input[username-field]');
+      var cardsList = getAllSavedCardsList();
       if (cardsList.length > 0) {
         var selectedCard = cardsList[prevCardCycleIndex % cardsList.length];
         prevCardCycleIndex++;
-        if (usernameInput) {
-          usernameInput.value = selectedCard;
-          usernameInput.dispatchEvent(new Event('input', {
-            bubbles: true
-          }));
-          usernameInput.dispatchEvent(new Event('change', {
-            bubbles: true
-          }));
+        selectSavedCard(selectedCard);
+
+        // Render and show the list of all saved previous cards
+        window.renderSavedCardsMenu();
+        if (savedCardsDropdown) {
+          savedCardsDropdown.classList.add('open');
         }
 
         // Success button feedback
@@ -3603,6 +3714,15 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // Close saved cards dropdown when clicking outside
+  document.addEventListener('click', function (e) {
+    if (savedCardsDropdown && savedCardsDropdown.classList.contains('open')) {
+      if (!savedCardsDropdown.contains(e.target) && e.target !== prevCardBtn && (!prevCardBtn || !prevCardBtn.contains(e.target))) {
+        savedCardsDropdown.classList.remove('open');
+      }
+    }
+  });
 
   // =========================================================================
   // 5. SPEED SELECTOR - PERMANENT VISIBILITY FOR ALL CARDS
@@ -3669,14 +3789,9 @@ document.addEventListener('DOMContentLoaded', function () {
       window.applySpeedLockForCard(val);
       window.applyStatusScreenFixedSpeedLock(val);
 
-      // إخفاء زر "دخول بكرت سابق" بسلاسة عند كتابة أي رقم وإظهاره عند فراغ الحقل
       var prevActions = document.querySelector('.input-inner-actions');
       if (prevActions) {
-        if (val.length > 0) {
-          prevActions.classList.add('is-hidden');
-        } else {
-          prevActions.classList.remove('is-hidden');
-        }
+        prevActions.classList.remove('is-hidden');
       }
     };
     usernameInputField.addEventListener('input', handleCardInput);
@@ -3693,7 +3808,7 @@ document.addEventListener('DOMContentLoaded', function () {
     handleCardInput();
     var persistCard = function persistCard() {
       var val = usernameInputField.value ? usernameInputField.value.trim() : '';
-      if (val.length > 1) {
+      if (val.length >= 1) {
         try {
           localStorage.setItem('last_user_card', val);
           if (typeof saveValueToCookie === 'function') {
@@ -3706,7 +3821,23 @@ document.addEventListener('DOMContentLoaded', function () {
     usernameInputField.addEventListener('blur', persistCard);
   }
 
-  // Form submission handling
+  // Persist card on mainLoginBtn click and form submission
+  var mainLoginBtnEl = document.getElementById('mainLoginBtn') || document.querySelector('.login-submit');
+  if (mainLoginBtnEl) {
+    mainLoginBtnEl.addEventListener('click', function () {
+      var uInput = (document.login && (document.login.querySelector('input[username-field]') || document.login.querySelector('input[name="username"]'))) || document.querySelector('input[name="username"]');
+      if (uInput && uInput.value && uInput.value.trim().length > 0) {
+        var val = uInput.value.trim();
+        try {
+          localStorage.setItem('last_user_card', val);
+          if (typeof saveValueToCookie === 'function') {
+            saveValueToCookie(val, '');
+          }
+        } catch (err) {}
+      }
+    }, true);
+  }
+
   if (document.login) {
     document.login.addEventListener('submit', function () {
       var uInput = document.login.querySelector('input[username-field]') || document.querySelector('input[name="username"]');

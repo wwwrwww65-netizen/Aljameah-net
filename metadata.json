@@ -1,6 +1,6 @@
 {
-  "name": "شبكة طوفان نت",
-  "description": "بوابة تسجيل الدخول وشبكة طوفان نت للاتصالات والإنترنت اللاسلكي",
+  "name": "شبكة الجامعة نت",
+  "description": "بوابة تسجيل الدخول وشبكة الجامعة نت للاتصالات والإنترنت اللاسلكي",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
