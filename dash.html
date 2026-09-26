@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <meta name="supported-color-schemes" content="dark">
+    <meta name="theme-color" content="#0a0f1d">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0a0f1d">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0f1d">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -17,6 +22,10 @@
 
     <style>
         :root {
+            color-scheme: dark !important;
+            supported-color-schemes: dark !important;
+            forced-color-adjust: none !important;
+            -webkit-color-scheme: dark !important;
             --bg-body: #0a0f1d;
             --bg-card: rgba(18, 26, 47, 0.85);
             --bg-card-hover: rgba(24, 34, 61, 0.95);
@@ -2169,9 +2178,27 @@
 
         // GENERATE CONFIG CODE STRING
         function generateConfigJS() {
-            if (appConfig.moba) appConfig['redirect-to-mobasher'] = appConfig.moba;
-            if (appConfig.estr) appConfig['redirect-to-esterahah'] = appConfig.estr;
-            return `window.siteConfig = ${JSON.stringify(appConfig, null, 4)};\n`;
+            if (appConfig.siteName) appConfig["network-name"] = appConfig.siteName;
+            if (appConfig.textSlider1) appConfig["news-line"] = appConfig.textSlider1;
+            if (appConfig.supportPhone) {
+                appConfig["service-number"] = appConfig.supportPhone;
+                appConfig.callPhone = appConfig.supportPhone;
+            }
+            if (appConfig.moba !== undefined) appConfig["redirect-to-mobasher"] = appConfig.moba;
+            if (appConfig.estr !== undefined) appConfig["redirect-to-esterahah"] = appConfig.estr;
+            if (appConfig.salesPoints) appConfig["sell-points"] = appConfig.salesPoints;
+            if (appConfig.updatesBlockerV !== undefined) {
+                appConfig["enable-updates-blocker"] = appConfig.updatesBlockerV ? 1 : 0;
+            }
+            if (Array.isArray(appConfig.packages)) {
+                appConfig.profiles = appConfig.packages.map(p => ({
+                    price: p.price || "",
+                    time: p.time || "",
+                    transfer: p.size || p.transfer || "",
+                    validity: p.vl || p.validity || ""
+                }));
+            }
+            return "window.siteConfig = " + JSON.stringify(appConfig, null, 4) + ";\n";
         }
 
         // DOWNLOAD FILE

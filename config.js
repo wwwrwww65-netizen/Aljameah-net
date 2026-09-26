@@ -1,18 +1,18 @@
 window.siteConfig = {
-    "siteName": "طوفان نت",
-    "network-name": "طوفان نت",
+    "siteName": "الجامعة نت",
+    "network-name": "الجامعة نت",
     "subDecText": "لخدمات الإنترنت اللاسلكي",
-    "welcomeMessage": "مرحبا بك في شبكتنا",
+    "welcomeMessage": "أهلاً بك زائرنا في شبكة الجامعة نت",
     "welcomeMessageV": true,
     "erbV": false,
-    "news-line": "تذكر ان الله ينظر اليك و خاف منه كما تخاف من ان ينظر اليك من بجانبك",
+    "news-line": "...:::: اهلاً بكم على شبكتنا اللاسلكية تتميز شبكتنا بتقديم مزايا مختلفة لمشتركيها الاعزاء منها السرعة في التصفح ولعب الألعاب والبث المباشر للمباريات ايضاً نقدم خدمة توصيل الانترنت الى المنازل لسنا الوحيدون ولكن نسعى لتقديم خدمة ممتازة على مدار 24 ساعة::::...",
     "news-line2": "",
-    "textSlider1": "تذكر ان الله ينظر اليك و خاف منه كما تخاف من ان ينظر اليك من بجانبك",
-    "supportPhone": "784000499",
-    "service-number": "784000499",
-    "callPhone": "784000499",
-    "whatsappPhone": "967784000499",
-    "whatsappMsg": "مرحبا خدمة عملاء شبكة طوفان نت اللاسلكية",
+    "textSlider1": "...:::: اهلاً بكم على شبكتنا اللاسلكية تتميز شبكتنا بتقديم مزايا مختلفة لمشتركيها الاعزاء منها السرعة في التصفح ولعب الألعاب والبث المباشر للمباريات ايضاً نقدم خدمة توصيل الانترنت الى المنازل لسنا الوحيدون ولكن نسعى لتقديم خدمة ممتازة على مدار 24 ساعة::::...",
+    "supportPhone": "770776483",
+    "service-number": "770776483",
+    "callPhone": "770776483",
+    "whatsappPhone": "967770776483",
+    "whatsappMsg": "مرحبا خدمة عملاء شبكة الجامعة نت اللاسلكية",
     "fixedSpeedCardPrefixes": [],
     "speed-select": 0,
     "speed-var": "speed",
@@ -27,30 +27,30 @@ window.siteConfig = {
             "isDefault": true
         },
         {
-            "name": "سرعة منخفضة ",
-            "label": "سرعة منخفضة ",
-            "value": "128K/512K",
+            "name": "سرعة اقتصادية",
+            "label": "سرعة اقتصادية",
+            "value": "55987b0d-ca6d-464f-93c8-db9ac4a08888",
             "selected": false,
             "isDefault": false
         },
         {
-            "name": "سرعة عادية ",
-            "label": "سرعة عادية ",
-            "value": "256K/1024K",
+            "name": "سرعة متوسطة",
+            "label": "سرعة متوسطة",
+            "value": "55987b0d-ca6d-464f-93c8-db9ac4a08000",
             "selected": false,
             "isDefault": false
         },
         {
-            "name": "سرعة متوسطة ",
-            "label": "سرعة متوسطة ",
-            "value": "512K/2048K",
+            "name": "سرعة عالية",
+            "label": "سرعة عالية",
+            "value": "55987b0d-ca6d-464f-93c8-db9ac4a08111",
             "selected": false,
             "isDefault": false
         },
         {
-            "name": "سرعة مفتوحة",
-            "label": "سرعة مفتوحة",
-            "value": "1024K/4096K",
+            "name": "سرعة قوية",
+            "label": "سرعة قوية",
+            "value": "55987b0d-ca6d-464f-93c8-db9ac4a08222",
             "selected": false,
             "isDefault": false
         }
@@ -60,132 +60,153 @@ window.siteConfig = {
     "packages": [
         {
             "price": "100 ريال",
-            "time": "3 ساعات",
-            "size": "200 ميجا",
-            "transfer": "200 ميجا",
-            "validity": "2 ايام",
-            "vl": "2 ايام"
+            "time": "4 ساعات",
+            "size": "400 ميجا",
+            "transfer": "400 ميجا",
+            "validity": "4 يوم",
+            "vl": "4 يوم"
         },
         {
-            "price": "150 ريال",
-            "time": "5 ساعات",
-            "size": "300 ميجا",
-            "transfer": "300 ميجا",
-            "validity": "4 ايام",
-            "vl": "4 ايام"
+            "price": "200 ريال",
+            "time": "12 ساعة",
+            "size": "700 ميجا",
+            "transfer": "700 ميجا",
+            "validity": "10 يوم",
+            "vl": "10 يوم"
         },
         {
             "price": "250 ريال",
-            "time": "10 ساعات",
-            "size": "650 ميجا",
-            "transfer": "650 ميجا",
-            "validity": "7 ايام",
-            "vl": "7 ايام"
+            "time": "15 ساعة",
+            "size": "1 جيجا",
+            "transfer": "1 جيجا",
+            "validity": "15 يوم",
+            "vl": "15 يوم"
         },
         {
             "price": "500 ريال",
-            "time": "25 ساعة",
-            "size": "1400 ميجا",
-            "transfer": "1400 ميجا",
+            "time": "50 ساعة",
+            "size": "2 جيجا",
+            "transfer": "2 جيجا",
             "validity": "20 يوم",
             "vl": "20 يوم"
         },
         {
             "price": "1000 ريال",
-            "time": "60 ساعة",
-            "size": "3 جيجا",
-            "transfer": "3 جيجا",
-            "validity": "شهر",
-            "vl": "شهر"
+            "time": "بدون تحديد",
+            "size": "3700 ميجا",
+            "transfer": "3700 ميجا",
+            "validity": "30 يوم",
+            "vl": "30 يوم"
+        },
+        {
+            "price": "2500 ريال",
+            "time": "بدون تحديد",
+            "size": "10 جيجا",
+            "transfer": "10 جيجا",
+            "validity": "30 يوم",
+            "vl": "30 يوم"
         },
         {
             "price": "5000 ريال",
-            "time": "شهر",
-            "size": "15 جيجا",
-            "transfer": "15 جيجا",
-            "validity": "شهر",
-            "vl": "شهر"
+            "time": "بدون تحديد",
+            "size": "20 جيجا",
+            "transfer": "20 جيجا",
+            "validity": "30 يوم",
+            "vl": "30 يوم"
         }
     ],
     "profiles": [
         {
             "price": "100 ريال",
-            "time": "3 ساعات",
-            "transfer": "200 ميجا",
-            "validity": "2 ايام"
+            "time": "4 ساعات",
+            "transfer": "400 ميجا",
+            "validity": "4 يوم"
         },
         {
-            "price": "150 ريال",
-            "time": "5 ساعات",
-            "transfer": "300 ميجا",
-            "validity": "4 ايام"
+            "price": "200 ريال",
+            "time": "12 ساعة",
+            "transfer": "700 ميجا",
+            "validity": "10 يوم"
         },
         {
             "price": "250 ريال",
-            "time": "10 ساعات",
-            "transfer": "650 ميجا",
-            "validity": "7 ايام"
+            "time": "15 ساعة",
+            "transfer": "1 جيجا",
+            "validity": "15 يوم"
         },
         {
             "price": "500 ريال",
-            "time": "25 ساعة",
-            "transfer": "1400 ميجا",
+            "time": "50 ساعة",
+            "transfer": "2 جيجا",
             "validity": "20 يوم"
         },
         {
             "price": "1000 ريال",
-            "time": "60 ساعة",
-            "transfer": "3 جيجا",
-            "validity": "شهر"
+            "time": "بدون تحديد",
+            "transfer": "3700 ميجا",
+            "validity": "30 يوم"
+        },
+        {
+            "price": "2500 ريال",
+            "time": "بدون تحديد",
+            "transfer": "10 جيجا",
+            "validity": "30 يوم"
         },
         {
             "price": "5000 ريال",
-            "time": "شهر",
-            "transfer": "15 جيجا",
-            "validity": "شهر"
+            "time": "بدون تحديد",
+            "transfer": "20 جيجا",
+            "validity": "30 يوم"
         }
     ],
-    "offersTitle": "خدمات وعروض شبكة طوفان نت 🔥",
-    "offers": "مرحبا بك في شبكتنا 😍\n• تذكر ان الله ينظر اليك و خاف منه كما تخاف من ان ينظر اليك من بجانبك\n• سرعة عالية وثبات في خدمة الإنترنت اللاسلكي\n• نقاط البيع متوفرة في جميع البقالات في اماكن تغطية الشبكة",
-    "offersBadge": "عرض مجاني",
+    "offersTitle": "خدمات وعروض شبكة الجامعة نت 🔥",
+    "offers": "...:::: اهلاً بكم على شبكتنا اللاسلكية تتميز شبكتنا بتقديم مزايا مختلفة لمشتركيها الاعزاء منها السرعة في التصفح ولعب الألعاب والبث المباشر للمباريات ايضاً نقدم خدمة توصيل الانترنت الى المنازل لسنا الوحيدون ولكن نسعى لتقديم خدمة ممتازة على مدار 24 ساعة::::...",
+    "offersBadge": "جديد الخدمات",
     "offersBadgeV": false,
-    "offersBtnText": "📺 بث واستراحة الطوفان",
+    "offersBtnText": "📺 بث واستراحة الشبكة",
     "offersBtnUrl": "",
     "offersBtnV": false,
     "loan-button": true,
-    "loan-text": "أهلاً بك زائرنا في شبكة طوفان نت",
+    "loan-text": "أهلاً بك زائرنا في شبكة الجامعة نت",
     "salesPoints": [
-        "جميع البقالات في اماكن تغطية الشبكة"
+        "المركز الرئيسي مركز الجامعة",
+        "جميع البقائل المجاوة للشبكة"
     ],
     "sell-points": [
         {
-            "name": "جميع البقالات في اماكن تغطية الشبكة"
+            "name": "المركز الرئيسي مركز الجامعة"
+        },
+        {
+            "name": "جميع البقائل المجاوة للشبكة"
         }
     ],
-    "estr": "http://f.com/fiberlive/live.html",
-    "estrV": true,
-    "moba": "http://f.com/fiberlive/live.html",
-    "mobaV": true,
-    "redirect-to-esterahah": "http://f.com/fiberlive/live.html",
-    "redirect-to-mobasher": "http://f.com/fiberlive/live.html",
+    "popup-adv-time": 5,
+    "popup-adv-img-type": true,
+    "popup-adv-repeat-after": 120,
+    "login-type": "passwordAsUser",
+    "estr": "https://kora.fiberlive.live/",
+    "estrV": false,
+    "moba": "fiberlive/live.html",
+    "mobaV": false,
+    "redirect-to-esterahah": "https://kora.fiberlive.live/",
+    "redirect-to-mobasher": "fiberlive/live.html",
     "app-store-status-button": false,
     "app-store-base-url": "",
     "quranUrl": "",
     "quranV": false,
-    "updatesBlockerV": true,
-    "enable-updates-blocker": 1,
+    "updatesBlockerV": false,
+    "enable-updates-blocker": 0,
     "enableHotCookie": true,
     "enable-hot-cookie": 1,
     "enable-hot-blocker": 1,
     "clear-router-cookie": 1,
     "clear-hot-cookie": 1,
-    "block-time": 2,
+    "block-time": 1,
     "try-count": 5,
     "warn-when": 3,
     "warn-message": "تحذير !! عدد محاولاتك الخاطئة اصبح {{tryCounter}} محاولات, عدد المحاولات المسموح بها هي {{tryCount}} محاولات فقط, عدد محاولاتك المتبقية {{restTryCount}} محاولات, سيتم حظرك لمدة {{blockTime}} دقائق اذا تجاوزت العدد المسموح للمحاولات",
-    "login-type": "user",
     "input-autocomplete": "on",
-    "input-type": "tel",
+    "input-type": "text",
     "input-rm-white-spaces": 1,
     "input-to-lower": 0,
     "input-to-upper": 0,
@@ -193,6 +214,7 @@ window.siteConfig = {
     "input-only-numbers": 0,
     "input-no-numbers": 0,
     "input-only-alphanumeric": 0,
+    "input-to-tel-type-when": 0,
     "input-to-text-type-when": 0,
     "price-button": true,
     "sell-point-button": true,

@@ -1,11 +1,14 @@
 @charset "UTF-8";
-@import url("../fonts/Almarai.css");
 
 /* ==========================================================================
    2026 WHITE CARDS & LIGHT GRAY-BLUE WITH VIBRANT ORANGE & BLUE THEME
    ========================================================================== */
 
 :root {
+  color-scheme: dark !important;
+  supported-color-schemes: dark !important;
+  forced-color-adjust: none !important;
+  -webkit-color-scheme: dark !important;
   --primary: #FF5722;
   --primary-glow: rgba(255, 87, 34, 0.35);
   --primary-gradient: #FF5722;

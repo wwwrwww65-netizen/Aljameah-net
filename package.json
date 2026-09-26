@@ -1,7 +1,7 @@
 {
-  "name": "tofan-hotspot",
+  "name": "toshka-hotspot",
   "version": "1.0.0",
-  "description": "شبكة طوفان نت - بوابة الهوتسبوت",
+  "description": "شبكة توشكا نت - بوابة الهوتسبوت",
   "type": "module",
   "scripts": {
     "dev": "node server.js",
@@ -10,6 +10,11 @@
     "lint": "node -c server.js"
   },
   "dependencies": {
+    "compression": "^1.8.2",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.6",
+    "@babel/preset-env": "^8.0.6"
   }
 }

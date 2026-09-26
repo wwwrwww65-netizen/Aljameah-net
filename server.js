@@ -2,12 +2,19 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import compression from 'compression';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
+
+// Enable gzip/deflate compression for ultra-fast asset delivery
+app.use(compression({
+  threshold: 1024,
+  level: 6
+}));
 
 // Helper to get default speed value from config.js
 function getConfigDefaultSpeed() {
@@ -35,8 +42,34 @@ function getConfigDefaultSpeed() {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve static assets from project root
-app.use(express.static(__dirname));
+// Fallback for adimg so nonexistent images gracefully return 1.jpg instead of 404
+app.get('/adimg/:file', (req, res, next) => {
+  const filePath = path.join(__dirname, 'adimg', req.params.file);
+  if (fs.existsSync(filePath)) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.sendFile(filePath);
+  }
+  const fallback = path.join(__dirname, 'adimg', '1.jpg');
+  if (fs.existsSync(fallback)) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.sendFile(fallback);
+  }
+  next();
+});
+
+// Serve static assets with high-performance caching headers
+app.use(express.static(__dirname, {
+  maxAge: '7d',
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    } else if (/\.(woff2|woff|ttf|eot)$/.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (/\.(css|js|svg|png|jpg|jpeg|ico|webp)$/.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    }
+  }
+}));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -72,15 +105,18 @@ app.get('/api/quran/info', (req, res) => {
 });
 
 // Quran page placeholder image if not found locally
-app.get('/api/quran/page/:num', (req, res) => {
-  const pageNum = req.params.num;
+app.get(['/api/quran/page/:num', '/public/quran-pages/:file'], (req, res) => {
+  const param = req.params.num || req.params.file || '1';
+  const pageNum = param.replace(/\.jpg$/, '');
   const localPagePath = path.join(__dirname, 'public', 'quran-pages', `${pageNum}.jpg`);
   if (fs.existsSync(localPagePath)) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.sendFile(localPagePath);
   }
   // Return a transparent 1x1 GIF or a placeholder SVG so image tag doesn't break
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900"><rect width="100%" height="100%" fill="#0a0f1d"/><text x="50%" y="48%" fill="#dfab52" font-family="sans-serif" font-size="24" text-anchor="middle">المصحف الشريف</text><text x="50%" y="54%" fill="#94a3b8" font-family="sans-serif" font-size="18" text-anchor="middle">صفحة ${pageNum}</text></svg>`;
   res.setHeader('Content-Type', 'image/svg+xml');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
   res.send(svg);
 });
 
