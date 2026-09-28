@@ -999,6 +999,9 @@
             </div>
 
             <div class="header-actions">
+                <button class="btn btn-outline btn-sm" onclick="reloadFromConfigFile()">
+                    <i class="fas fa-arrows-rotate"></i> إعادة تحميل من config.js
+                </button>
                 <button class="btn btn-outline btn-sm" onclick="openImportModal()">
                     <i class="fas fa-file-import"></i> استيراد ملف
                 </button>
@@ -1714,37 +1717,7 @@
     <!-- MAIN DASHBOARD SCRIPT -->
     <script>
         // GLOBAL CONFIG STATE
-        let appConfig = {
-            siteName: "BH-NET",
-            welcomeMessage: "مرحبا بكم في شبكة BH-NET اللاسلكية",
-            welcomeMessageV: true,
-            erbV: true,
-            textSlider1: "",
-            supportPhone: "770807056",
-            whatsappPhone: "967770807056",
-            whatsappMsg: "مرحبا خدمة عملاء شبكة {network-name} اللاسلكية",
-            speedOptions: [],
-            imageCount: "7",
-            imageV: true,
-            packages: [],
-            offersTitle: "عروض ومميزات الشبكة الحصرية 🔥",
-            offers: "",
-            offersBtnText: "📺 مشاهدة البث المباشر والمباريات",
-            offersBtnUrl: "https://kor.fntvs.net/channel.php",
-            offersBtnV: true,
-            salesPoints: [],
-            estr: "",
-            estrV: false,
-            moba: "https://kor.fntvs.net/channel.php",
-            mobaV: true,
-            quranUrl: "",
-            quranV: true,
-            enableHotCookie: true,
-            "try-count": 5,
-            "warn-when": 3,
-            "block-time": 5,
-            "warn-message": "تبقى لك {{restTryCount}} محاولات قبل أن يتم حظرك لمدة {{blockTime}} دقائق"
-        };
+        let appConfig = {};
 
         // INITIALIZE ON LOAD
         document.addEventListener('DOMContentLoaded', function () {
@@ -1752,57 +1725,94 @@
             renderAll();
         });
 
-        function loadInitialConfig() {
-            // Check if window.siteConfig exists from config.js
+        function reloadFromConfigFile() {
+            try {
+                localStorage.removeItem('mikrotik_bhnet_dash_config');
+            } catch (e) {}
+            loadInitialConfig(true);
+            renderAll();
+            showToast('تمت إعادة تحميل وتحديث كافة البيانات من ملف config.js مباشرة', 'success');
+        }
+
+        function loadInitialConfig(forceFresh) {
+            // Read directly from window.siteConfig (loaded from config.js)
             if (window.siteConfig && typeof window.siteConfig === 'object') {
                 appConfig = JSON.parse(JSON.stringify(window.siteConfig));
+            } else {
+                appConfig = {};
             }
 
-            // Also check localStorage for unsaved edits
-            const cached = localStorage.getItem('mikrotik_bhnet_dash_config');
-            if (cached) {
-                try {
-                    const parsed = JSON.parse(cached);
-                    if (parsed && typeof parsed === 'object') {
-                        appConfig = Object.assign({}, appConfig, parsed);
-                    }
-                } catch (e) {
-                    console.warn('Could not parse cached config');
-                }
+            // Sync Aliases
+            if (!appConfig.siteName && appConfig["network-name"]) {
+                appConfig.siteName = appConfig["network-name"];
+            }
+            if (!appConfig["network-name"] && appConfig.siteName) {
+                appConfig["network-name"] = appConfig.siteName;
             }
 
-            // Ensure defaults
+            if (!appConfig.supportPhone) {
+                appConfig.supportPhone = appConfig["service-number"] || appConfig.callPhone || "";
+            }
+            if (!appConfig["service-number"] && appConfig.supportPhone) {
+                appConfig["service-number"] = appConfig.supportPhone;
+            }
+
+            if (!appConfig.textSlider1 && appConfig["news-line"]) {
+                appConfig.textSlider1 = appConfig["news-line"];
+            }
+            if (!appConfig["news-line"] && appConfig.textSlider1) {
+                appConfig["news-line"] = appConfig.textSlider1;
+            }
+
+            // Sync Packages & Profiles
+            if ((!appConfig.packages || appConfig.packages.length === 0) && Array.isArray(appConfig.profiles) && appConfig.profiles.length > 0) {
+                appConfig.packages = appConfig.profiles.map(p => ({
+                    price: p.price || "",
+                    time: p.time || "",
+                    size: p.transfer || p.size || "",
+                    transfer: p.transfer || p.size || "",
+                    vl: p.validity || p.vl || "",
+                    validity: p.validity || p.vl || ""
+                }));
+            }
+
+            // Sync Sales Points
+            if ((!appConfig.salesPoints || appConfig.salesPoints.length === 0) && Array.isArray(appConfig["sell-points"]) && appConfig["sell-points"].length > 0) {
+                appConfig.salesPoints = appConfig["sell-points"].map(sp => (typeof sp === 'string' ? sp : (sp.name || "")));
+            }
+
+            // Sync Entertainment & Features
             if (appConfig.estr === undefined && appConfig['redirect-to-esterahah']) appConfig.estr = appConfig['redirect-to-esterahah'];
             if (appConfig.moba === undefined && appConfig['redirect-to-mobasher']) appConfig.moba = appConfig['redirect-to-mobasher'];
             if (appConfig['redirect-to-esterahah'] === undefined && appConfig.estr) appConfig['redirect-to-esterahah'] = appConfig.estr;
             if (appConfig['redirect-to-mobasher'] === undefined && appConfig.moba) appConfig['redirect-to-mobasher'] = appConfig.moba;
-            if (appConfig.estrV === undefined) appConfig.estrV = Boolean(appConfig.estr && appConfig.estr.trim().length > 0);
-            if (appConfig.mobaV === undefined) appConfig.mobaV = true;
-            if (appConfig.quranV === undefined) appConfig.quranV = true;
+            
+            if (appConfig.estrV === undefined) appConfig.estrV = Boolean(appConfig.estr && appConfig.estr.trim().length > 0 && appConfig.estr !== "#");
+            if (appConfig.mobaV === undefined) appConfig.mobaV = Boolean(appConfig.moba && appConfig.moba.trim().length > 0 && appConfig.moba !== "#");
+            if (appConfig.quranV === undefined) appConfig.quranV = false;
             if (appConfig.quranUrl === undefined) appConfig.quranUrl = "";
+
             if (appConfig.updatesBlockerV === undefined) {
-                appConfig.updatesBlockerV = (appConfig["enable-updates-blocker"] !== undefined) ? Boolean(appConfig["enable-updates-blocker"] !== 0 && appConfig["enable-updates-blocker"] !== false) : true;
+                appConfig.updatesBlockerV = (appConfig["enable-updates-blocker"] !== undefined) ? Boolean(appConfig["enable-updates-blocker"] !== 0 && appConfig["enable-updates-blocker"] !== false) : false;
             }
             if (appConfig["enable-updates-blocker"] === undefined) {
                 appConfig["enable-updates-blocker"] = appConfig.updatesBlockerV ? 1 : 0;
             }
+
             if (appConfig.welcomeMessageV === undefined) appConfig.welcomeMessageV = true;
-            if (appConfig.erbV === undefined) appConfig.erbV = true;
+            if (appConfig.erbV === undefined) appConfig.erbV = false;
             if (appConfig.imageV === undefined) appConfig.imageV = true;
-            if (appConfig.offersBadgeV === undefined) appConfig.offersBadgeV = true;
-            if (appConfig.offersBadge === undefined) appConfig.offersBadge = "عرض مجاني";
-            if (appConfig.offersBtnV === undefined) appConfig.offersBtnV = true;
+            if (appConfig.offersBadgeV === undefined) appConfig.offersBadgeV = false;
+            if (appConfig.offersBadge === undefined) appConfig.offersBadge = "جديد الخدمات";
+            if (appConfig.offersBtnV === undefined) appConfig.offersBtnV = false;
             if (appConfig.enableHotCookie === undefined) appConfig.enableHotCookie = true;
             if (appConfig["try-count"] === undefined) appConfig["try-count"] = 5;
             if (appConfig["warn-when"] === undefined) appConfig["warn-when"] = 3;
-            if (appConfig["block-time"] === undefined) appConfig["block-time"] = 5;
-            if (appConfig["warn-message"] === undefined) appConfig["warn-message"] = "تبقى لك {{restTryCount}} محاولات قبل أن يتم حظرك لمدة {{blockTime}} دقائق";
+            if (appConfig["block-time"] === undefined) appConfig["block-time"] = 1;
+            if (appConfig["warn-message"] === undefined) appConfig["warn-message"] = "تحذير !! عدد محاولاتك الخاطئة اصبح {{tryCounter}} محاولات, عدد المحاولات المسموح بها هي {{tryCount}} محاولات فقط, عدد محاولاتك المتبقية {{restTryCount}} محاولات, سيتم حظرك لمدة {{blockTime}} دقائق اذا تجاوزت العدد المسموح للمحاولات";
             if (!appConfig.fixedSpeedCardPrefixes || !Array.isArray(appConfig.fixedSpeedCardPrefixes)) {
                 appConfig.fixedSpeedCardPrefixes = [];
             }
-            if (!appConfig.supportPhone) appConfig.supportPhone = "770807056";
-            if (!appConfig.whatsappPhone) appConfig.whatsappPhone = "967770807056";
-            if (!appConfig.whatsappMsg) appConfig.whatsappMsg = "مرحبا خدمة عملاء شبكة {network-name} اللاسلكية";
         }
 
         function saveToCache() {
@@ -2022,7 +2032,9 @@
                     spd.isDefault = (i === index);
                 });
                 if (appConfig.speedOptions[index]) {
-                    appConfig.defaultSpeed = appConfig.speedOptions[index].value || "";
+                    var chosenVal = appConfig.speedOptions[index].value || "";
+                    appConfig.defaultSpeed = chosenVal;
+                    appConfig["speed-option"] = chosenVal;
                 }
                 saveToCache();
                 showToast(`تم تعيين "${appConfig.speedOptions[index].label || appConfig.speedOptions[index].name}" كسرعة افتراضية`, 'info');
@@ -2189,6 +2201,13 @@
             if (appConfig.salesPoints) appConfig["sell-points"] = appConfig.salesPoints;
             if (appConfig.updatesBlockerV !== undefined) {
                 appConfig["enable-updates-blocker"] = appConfig.updatesBlockerV ? 1 : 0;
+            }
+            if (appConfig["speed-var"] === undefined) appConfig["speed-var"] = "speed";
+            if (appConfig["speed-select"] === undefined) appConfig["speed-select"] = 1;
+            if (appConfig.defaultSpeed !== undefined) {
+                appConfig["speed-option"] = appConfig.defaultSpeed;
+            } else if (appConfig["speed-option"] !== undefined) {
+                appConfig.defaultSpeed = appConfig["speed-option"];
             }
             if (Array.isArray(appConfig.packages)) {
                 appConfig.profiles = appConfig.packages.map(p => ({

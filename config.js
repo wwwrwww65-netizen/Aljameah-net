@@ -16,16 +16,9 @@ window.siteConfig = {
     "fixedSpeedCardPrefixes": [],
     "speed-select": 1,
     "speed-var": "speed",
-    "speed-option": "",
-    "defaultSpeed": "",
+    "speed-option": "55987b0d-ca6d-464f-93c8-db9ac4a08222",
+    "defaultSpeed": "55987b0d-ca6d-464f-93c8-db9ac4a08222",
     "speedOptions": [
-        {
-            "name": "سرعة افتراضية",
-            "label": "سرعة افتراضية",
-            "value": "",
-            "selected": true,
-            "isDefault": true
-        },
         {
             "name": "سرعة اقتصادية",
             "label": "سرعة اقتصادية",
@@ -51,8 +44,8 @@ window.siteConfig = {
             "name": "سرعة قوية",
             "label": "سرعة قوية",
             "value": "55987b0d-ca6d-464f-93c8-db9ac4a08222",
-            "selected": false,
-            "isDefault": false
+            "selected": true,
+            "isDefault": true
         }
     ],
     "imageCount": "7",
