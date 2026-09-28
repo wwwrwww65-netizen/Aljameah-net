@@ -260,18 +260,13 @@
             };
         })();
 
-        // Universal Safe Login Button Click Handler with Debounce
+        // Universal Safe Login Button Click Handler
         window.onMainLoginButtonClicked = function (e) {
             if (e && e.preventDefault) e.preventDefault();
             window.animating = false;
-            if (window._isSubmittingLogin) return;
-            window._isSubmittingLogin = true;
-            setTimeout(function () {
-                window._isSubmittingLogin = false;
-            }, 600);
             if (typeof onLoginSubmitted === 'function') {
                 onLoginSubmitted();
-            } else if (document.login && typeof userLogin === 'function') {
+            } else if (typeof userLogin === 'function') {
                 userLogin();
             }
         };
