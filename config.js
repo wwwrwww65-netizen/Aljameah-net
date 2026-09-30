@@ -185,8 +185,6 @@ window.siteConfig = {
     "redirect-to-mobasher": "",
     "app-store-status-button": false,
     "app-store-base-url": "",
-    "quranUrl": "",
-    "quranV": false,
     "updatesBlockerV": false,
     "enable-updates-blocker": 0,
     "enableHotCookie": true,

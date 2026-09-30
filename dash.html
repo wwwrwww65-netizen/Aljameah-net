@@ -1143,52 +1143,25 @@
                             <label class="form-label" for="textSlider1Input">
                                 <i class="fas fa-bullhorn"></i> شريط الأخبار المتحرك (Marquee Ticker)
                             </label>
-                            <textarea class="form-control" id="textSlider1Input" placeholder="النص المتحرك أو الآية القرآنية..." oninput="updateConfigField('textSlider1', this.value)"></textarea>
+                            <textarea class="form-control" id="textSlider1Input" placeholder="النص المتحرك أو رسالة الترحيب والشريط الإخباري..." oninput="updateConfigField('textSlider1', this.value)"></textarea>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 2: LIVE BROADCAST, LOUNGE & HOLY QURAN -->
+            <!-- SECTION 2: LIVE BROADCAST & LOUNGE -->
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">
-                            <i class="fas fa-tv"></i> البث المباشر واستراحة الشبكة والقرآن الكريم
+                            <i class="fas fa-tv"></i> البث المباشر واستراحة الشبكة
                         </h2>
                     </div>
 
                     <div class="card-body">
-                        <!-- Holy Quran Toggle & URL -->
-                        <div class="feature-toggle-card" style="border-color: rgba(223, 171, 82, 0.35);">
-                            <div class="feature-toggle-info">
-                                <div class="feature-toggle-icon" style="color: #dfab52; background: rgba(223, 171, 82, 0.15);"><i class="fas fa-quran"></i></div>
-                                <div>
-                                    <div class="feature-toggle-title">شريط وزر القرآن الكريم (المصحف الشريف)</div>
-                                    <div class="feature-toggle-desc">إظهار أو إخفاء زر وشريط المصحف في صفحتي تسجيل الدخول والحالة (Status)</div>
-                                </div>
-                            </div>
-                            <div class="switch-container">
-                                <span class="status-badge" id="badgeQuran">مفعل</span>
-                                <label class="switch">
-                                    <input type="checkbox" id="quranVToggle" onchange="updateToggleField('quranV', this.checked, 'badgeQuran')">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="quranUrlInput"><i class="fas fa-link"></i> رابط مخصص لزر القرآن (اختياري)</label>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="url" class="form-control" id="quranUrlInput" placeholder="اتركه فارغاً لفتح المصحف المدمج مجاناً، أو ضع رابط خارجي" oninput="updateConfigField('quranUrl', this.value)">
-                                <button class="btn btn-outline btn-icon" onclick="testLink('quranUrlInput')" title="تجربة الرابط"><i class="fas fa-external-link-alt"></i></button>
-                            </div>
-                            <div class="form-hint"><i class="fas fa-info-circle" style="color: #dfab52;"></i> إذا تُرك فارغاً؛ سيفتح زر القرآن قارئ المصحف الشريف المدمج بالشبكة تلقائياً بدون رصيد</div>
-                        </div>
-
                         <!-- Updates & App Store Blocker Strip Toggle -->
-                        <div class="feature-toggle-card" style="margin-top: 24px; border-color: rgba(59, 130, 246, 0.35);">
+                        <div class="feature-toggle-card" style="border-color: rgba(59, 130, 246, 0.35);">
                             <div class="feature-toggle-info">
                                 <div class="feature-toggle-icon" style="color: #60a5fa; background: rgba(59, 130, 246, 0.15);"><i class="fas fa-shield-alt"></i></div>
                                 <div>
@@ -1616,17 +1589,6 @@
                 </p>
 
                 <div class="preview-box">
-                    <div id="previewQuranBtn" style="display: none; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: linear-gradient(135deg, rgba(223, 171, 82, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%); border: 1px solid rgba(223, 171, 82, 0.35); color: #dfab52; font-weight: 700;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-quran" style="font-size: 1.25rem;"></i>
-                            <div>
-                                <div style="font-size: 0.95rem; color: #fff;">القرآن الكريم <span style="font-size: 0.72rem; background: #dfab52; color: #000; padding: 1px 6px; border-radius: 10px; margin-right: 4px; font-weight: 800;">مجاني</span></div>
-                                <div style="font-size: 0.75rem; color: #94a3b8; font-weight: normal;">المصحف الشريف كاملاً بدون رصيد</div>
-                            </div>
-                        </div>
-                        <span style="font-size: 0.8rem; background: #dfab52; color: #0f172a; padding: 4px 10px; border-radius: 8px; font-weight: 700;">قراءة</span>
-                    </div>
-
                     <div id="previewUpdatesBtn" style="display: none; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.35); color: #93c5fd; font-weight: 700; margin-top: 10px;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <i class="fas fa-shield-alt" style="font-size: 1.25rem; color: #60a5fa;"></i>
@@ -1789,8 +1751,6 @@
             
             if (appConfig.estrV === undefined) appConfig.estrV = Boolean(appConfig.estr && appConfig.estr.trim().length > 0 && appConfig.estr !== "#");
             if (appConfig.mobaV === undefined) appConfig.mobaV = Boolean(appConfig.moba && appConfig.moba.trim().length > 0 && appConfig.moba !== "#");
-            if (appConfig.quranV === undefined) appConfig.quranV = false;
-            if (appConfig.quranUrl === undefined) appConfig.quranUrl = "";
 
             if (appConfig.updatesBlockerV === undefined) {
                 appConfig.updatesBlockerV = (appConfig["enable-updates-blocker"] !== undefined) ? Boolean(appConfig["enable-updates-blocker"] !== 0 && appConfig["enable-updates-blocker"] !== false) : false;
@@ -1833,7 +1793,6 @@
             document.getElementById('whatsappMsgInput').value = appConfig.whatsappMsg || '';
             document.getElementById('welcomeMessageInput').value = appConfig.welcomeMessage || '';
             document.getElementById('textSlider1Input').value = appConfig.textSlider1 || '';
-            document.getElementById('quranUrlInput').value = appConfig.quranUrl || '';
             document.getElementById('mobaInput').value = appConfig.moba || '';
             document.getElementById('estrInput').value = appConfig.estr || '';
             document.getElementById('imageCountInput').value = appConfig.imageCount || '0';
@@ -1866,7 +1825,6 @@
             }
 
             // Toggles
-            setToggle('quranVToggle', 'badgeQuran', Boolean(appConfig.quranV !== false));
             setToggle('updatesBlockerVToggle', 'badgeUpdatesBlocker', Boolean(appConfig.updatesBlockerV !== false && appConfig["enable-updates-blocker"] !== 0 && appConfig["enable-updates-blocker"] !== false));
             setToggle('welcomeMessageVToggle', 'badgeWelcome', Boolean(appConfig.welcomeMessageV));
             setToggle('mobaVToggle', 'badgeMoba', Boolean(appConfig.mobaV));
@@ -2266,24 +2224,21 @@
         }
 
         function openLivePreviewModal() {
-            const quranBtn = document.getElementById('previewQuranBtn');
             const updatesBtn = document.getElementById('previewUpdatesBtn');
             const mobaBtn = document.getElementById('previewMobaBtn');
             const estrBtn = document.getElementById('previewEstrBtn');
             const emptyMsg = document.getElementById('previewEmptyMsg');
 
-            const isQuran = appConfig.quranV !== false;
             const isUpdates = appConfig.updatesBlockerV !== false && appConfig["enable-updates-blocker"] !== 0 && appConfig["enable-updates-blocker"] !== false;
             const isMoba = Boolean(appConfig.mobaV) && appConfig.moba && appConfig.moba.trim().length > 0;
             const isEstr = Boolean(appConfig.estrV) && appConfig.estr && appConfig.estr.trim().length > 0;
 
-            if (quranBtn) quranBtn.style.display = isQuran ? 'flex' : 'none';
             if (updatesBtn) updatesBtn.style.display = isUpdates ? 'flex' : 'none';
             mobaBtn.style.display = isMoba ? 'flex' : 'none';
             estrBtn.style.display = isEstr ? 'flex' : 'none';
             const entertainmentRow = document.getElementById('previewEntertainmentRow');
             if (entertainmentRow) entertainmentRow.style.display = (isMoba || isEstr) ? 'flex' : 'none';
-            emptyMsg.style.display = (!isQuran && !isMoba && !isEstr && !isUpdates) ? 'block' : 'none';
+            emptyMsg.style.display = (!isMoba && !isEstr && !isUpdates) ? 'block' : 'none';
 
             openModal('livePreviewModal');
         }

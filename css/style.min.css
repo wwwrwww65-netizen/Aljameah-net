@@ -5283,7 +5283,7 @@ input[name="username"] {
 
 /* 14. Modals & Popups (.loyalty-modal-content, .modal-sheet-card, .points-auth-modal-card) */
 .loyalty-modal,
-.app:not(#status):not(#quran-modal) {
+.app:not(#status) {
   background: rgba(5, 9, 17, 0.58) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;

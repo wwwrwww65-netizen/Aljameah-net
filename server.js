@@ -87,46 +87,6 @@ app.get('/api/v1/public/content', (req, res) => {
   });
 });
 
-// Quran info endpoint
-app.get('/api/quran/info', (req, res) => {
-  const surahsPath = path.join(__dirname, 'js', 'quran-surahs.json');
-  let surahs = [];
-  try {
-    if (fs.existsSync(surahsPath)) {
-      surahs = JSON.parse(fs.readFileSync(surahsPath, 'utf8'));
-    }
-  } catch (err) {
-    console.error('Error reading surahs file:', err);
-  }
-  res.json({
-    totalPages: 569,
-    surahs: surahs
-  });
-});
-
-// Quran page placeholder image if not found locally
-app.get(['/api/quran/page/:num', '/public/quran-pages/:file'], (req, res) => {
-  const param = req.params.num || req.params.file || '1';
-  const pageNum = param.replace(/\.jpg$/, '');
-  const localPagePath = path.join(__dirname, 'public', 'quran-pages', `${pageNum}.jpg`);
-  if (fs.existsSync(localPagePath)) {
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-    return res.sendFile(localPagePath);
-  }
-  // Return a transparent 1x1 GIF or a placeholder SVG so image tag doesn't break
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900"><rect width="100%" height="100%" fill="#0a0f1d"/><text x="50%" y="48%" fill="#dfab52" font-family="sans-serif" font-size="24" text-anchor="middle">المصحف الشريف</text><text x="50%" y="54%" fill="#94a3b8" font-family="sans-serif" font-size="18" text-anchor="middle">صفحة ${pageNum}</text></svg>`;
-  res.setHeader('Content-Type', 'image/svg+xml');
-  res.setHeader('Cache-Control', 'public, max-age=86400');
-  res.send(svg);
-});
-
-// Quran download mock/fallback
-app.get('/download-quran', (req, res) => {
-  res.setHeader('Content-Disposition', 'attachment; filename="mobile-quran.pdf"');
-  res.setHeader('Content-Type', 'application/pdf');
-  res.send(Buffer.from('%PDF-1.4\n%empty pdf placeholder\n%%EOF'));
-});
-
 // In-memory simulation session
 let simulatedSession = {
   logged_in: false,
